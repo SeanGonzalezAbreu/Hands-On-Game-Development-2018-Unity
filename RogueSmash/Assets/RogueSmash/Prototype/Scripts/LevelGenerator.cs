@@ -18,7 +18,6 @@ namespace SAGAMES.RogueSmash.Prototype.Scripts
         private List<Vector3> spawnedObstacleLocations = new List<Vector3>();
 
         #endregion
-
         #region Unity Methods
 
         private void Start()
@@ -27,7 +26,6 @@ namespace SAGAMES.RogueSmash.Prototype.Scripts
         }
 
         #endregion
-
         #region Class Methods
 
         private void GenerateLevel()

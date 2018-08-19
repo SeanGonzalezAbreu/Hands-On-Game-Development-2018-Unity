@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Name: Player1
   m_EditorClassIdentifier: 
   characterData:
-    movementSpeed: 0
+    movementSpeed: 10
     maxHealth: 0
     maxLives: 0
