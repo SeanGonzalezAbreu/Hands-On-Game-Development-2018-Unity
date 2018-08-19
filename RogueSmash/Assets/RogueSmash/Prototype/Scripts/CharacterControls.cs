@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-//using SAGAMES.RogueSmash.Prototype;
 namespace SAGAMES.RogueSmash.Prototype.Scripts
 {
     public class CharacterControls : MonoBehaviour

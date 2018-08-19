@@ -4,6 +4,7 @@ namespace SAGAMES.RogueSmash.Prototype.Scripts
     public class CameraDriver : MonoBehaviour
     {
         #region Variables
+
         [Header("Camera Configuration")]
         [SerializeField] private Transform target;
         [SerializeField] private float verticalOffset;
@@ -26,7 +27,7 @@ namespace SAGAMES.RogueSmash.Prototype.Scripts
 
         #endregion
 
-        #region Private Methods
+        #region Class Methods
 
         private void Look()
         {
