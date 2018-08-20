@@ -1,6 +1,6 @@
-﻿using System;
-using SAGAMES.GameFramework.InputManagement;
+﻿using SAGAMES.GameFramework.InputManagement;
 using SAGAMES.GameFramework.InputSystem.Interfaces;
+using SAGAMES.RogueSmash.Achievements;
 using SAGAMES.RogueSmash.PlayerController.Scripts;
 using SAGAMES.RogueSmash.Weapons;
 using UnityEngine;
@@ -19,6 +19,7 @@ namespace SAGAMES.SandBox.Scripts
         private InputManager inputManager;
         private IWeapon weapon;
         [SerializeField] private Transform weaponBarrel;
+        private AchievementTracker tracker;
         #endregion
 
         #region Unity Methods
@@ -29,7 +30,10 @@ namespace SAGAMES.SandBox.Scripts
             inputManager.AddActionToBinding("Shoot", Shoot);
             weapon = new Pistol(weaponDataTemplate.WeaponData, weaponBarrel.gameObject);
         }
-
+        private void Awake()
+        {
+            tracker = FindObjectOfType<AchievementTracker>();
+        }
 
         private void FixedUpdate()
         {
@@ -42,7 +46,7 @@ namespace SAGAMES.SandBox.Scripts
 
         private void Shoot()
         {
-            weapon.Shoot();
+            if (weapon.Shoot()) tracker.ReportProgress("shots_fired", 1.0f);
         }
 
         private void CheckForInput()

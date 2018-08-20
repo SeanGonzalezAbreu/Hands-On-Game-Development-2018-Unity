@@ -19,8 +19,8 @@ namespace SAGAMES.GameFramework.SaveSystem.Samples
             //saver.Save(o);
 
             //Test for loading
-            string s = saver.Load<string>();
-            Debug.Log(s);
+            //string s = saver.Load<string>();
+            //Debug.Log(s);
         }
 
         private void Update()
