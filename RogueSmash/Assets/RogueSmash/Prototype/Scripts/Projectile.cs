@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
-namespace SAGAMES.RogueSmash.Prototype.Scripts
+namespace SAGAMES.RogueSmash.Weapons
 {
     public class Projectile : MonoBehaviour
     {

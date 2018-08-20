@@ -17,7 +17,7 @@ MonoBehaviour:
     reloadTime: 2
     doesAutoReload: 1
     baseDamage: 1
-    projectileSpeed: 50
+    projectileSpeed: 40
     projectilePrefab: {fileID: 1009233279780754, guid: 61a2a6c102a35bc41be4c43d7f16e7d2,
       type: 2}
-    projectileLifeTime: 10
+    projectileLifeTime: 2

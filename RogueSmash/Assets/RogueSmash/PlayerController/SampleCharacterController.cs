@@ -5,7 +5,7 @@ using SAGAMES.RogueSmash.PlayerController.Scripts;
 using SAGAMES.RogueSmash.Weapons;
 using UnityEngine;
 
-namespace SAGAMES.SandBox.Scripts
+namespace SAGAMES.RogueSmash.PlayerController
 {
     public class SampleCharacterController : MonoBehaviour
     {
@@ -20,6 +20,8 @@ namespace SAGAMES.SandBox.Scripts
         private IWeapon weapon;
         [SerializeField] private Transform weaponBarrel;
         private AchievementTracker tracker;
+        private Rigidbody rb;
+
         #endregion
 
         #region Unity Methods
@@ -33,6 +35,7 @@ namespace SAGAMES.SandBox.Scripts
         private void Awake()
         {
             tracker = FindObjectOfType<AchievementTracker>();
+            rb = GetComponent<Rigidbody>();
         }
 
         private void FixedUpdate()
@@ -59,7 +62,8 @@ namespace SAGAMES.SandBox.Scripts
             Vector3 input = Vector3.zero;
             input.x = inputManager.GetAxis("Horizontal");
             input.z = inputManager.GetAxis("Vertical");
-            transform.Translate(input * Time.deltaTime * characterDataTemplate.Data.MovementSpeed, Space.World);
+            //transform.Translate(input * Time.deltaTime * characterDataTemplate.Data.MovementSpeed, Space.World);
+            rb.velocity = input * characterDataTemplate.Data.MovementSpeed;
 
         }
         #endregion
