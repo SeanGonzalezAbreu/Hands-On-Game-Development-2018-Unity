@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SAGAMES.RogueSmash.Weapons;
+using System;
 using UnityEngine;
 
 namespace SAGAMES.RogueSmash.Prototype.Scripts

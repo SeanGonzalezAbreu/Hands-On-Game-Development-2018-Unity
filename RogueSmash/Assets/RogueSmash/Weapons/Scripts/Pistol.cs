@@ -12,6 +12,7 @@ namespace SAGAMES.RogueSmash.Weapons
     {
         #region Variables
 
+        private MeshRenderer meshRenderer;
         private WeaponData weaponData;
         private int currentAmmo;
         private bool isReloading = false;
@@ -21,10 +22,11 @@ namespace SAGAMES.RogueSmash.Weapons
         #endregion
         #region Constructor
 
-        public Pistol(WeaponData _weaponData, GameObject _actor)
+        public Pistol(WeaponData _weaponData, GameObject _actor, MeshRenderer _meshRenderer)
         {
             this.weaponData = _weaponData;
             this.actorLocation = _actor.transform;
+            this.meshRenderer = _meshRenderer;
             currentAmmo = weaponData.MaxAmmo;
         }
 
@@ -47,6 +49,7 @@ namespace SAGAMES.RogueSmash.Weapons
             if (isReloading)
             {
                 Debug.LogWarning("Reloading");
+                meshRenderer.material.color = Color.red;
                 return false;
             }
             if (currentAmmo > 0)
@@ -90,6 +93,7 @@ namespace SAGAMES.RogueSmash.Weapons
                 yield return null;
             }
             Debug.LogError("Reload Complete");
+            meshRenderer.material.color = Color.white;
             currentAmmo = weaponData.MaxAmmo;
             isReloading = false;
         }
