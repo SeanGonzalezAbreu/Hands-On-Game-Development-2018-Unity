@@ -8,9 +8,8 @@ namespace SAGAMES.RogueSmash.Weapons
 
         private float lifetime;
         private Vector3 direction;
-        private float velocity;
+        private float projectilVelocity;
         private bool isAlive;
-
         #endregion
 
         #region Unity Methods
@@ -18,7 +17,8 @@ namespace SAGAMES.RogueSmash.Weapons
         void Update()
         {
 
-            if (isAlive) transform.position += direction * Time.deltaTime * velocity;
+            if (isAlive) transform.position += direction * Time.deltaTime * projectilVelocity;
+            //if (isAlive) rb.velocity = direction * projectilVelocity;
         }
 
         #endregion
@@ -28,7 +28,7 @@ namespace SAGAMES.RogueSmash.Weapons
         public void Init(Vector3 _direction, float _velocity = 20.0f, float _lifetime = 1.0f)
         {
             this.direction = _direction;
-            this.velocity = _velocity;
+            this.projectilVelocity = _velocity;
             this.lifetime = _lifetime;
         }
 
@@ -37,7 +37,7 @@ namespace SAGAMES.RogueSmash.Weapons
             StartCoroutine(DeathTimer(lifetime));
             isAlive = true;
         }
-        private IEnumerator DeathTimer(float _timer)
+        public IEnumerator DeathTimer(float _timer)
         {
             yield return new WaitForSeconds(_timer);
             Destroy(gameObject);

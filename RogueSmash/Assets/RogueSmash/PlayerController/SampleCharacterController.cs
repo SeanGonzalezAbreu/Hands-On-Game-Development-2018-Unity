@@ -1,5 +1,6 @@
 ﻿using SAGAMES.GameFramework.InputManagement;
 using SAGAMES.GameFramework.InputSystem.Interfaces;
+using SAGAMES.GameFramework.Physics.Interfaces;
 using SAGAMES.RogueSmash.Achievements;
 using SAGAMES.RogueSmash.PlayerController.Scripts;
 using SAGAMES.RogueSmash.Weapons;
@@ -16,9 +17,11 @@ namespace SAGAMES.RogueSmash.PlayerController
         [SerializeField] private WeaponDataTemplate weaponDataTemplate;
 
         [Header("Other")]
+        [SerializeField] private Transform weaponBarrel;
+        [SerializeField] private MeshRenderer meshRenderer;
+
         private InputManager inputManager;
         private IWeapon weapon;
-        [SerializeField] private Transform weaponBarrel;
         private AchievementTracker tracker;
         private Rigidbody rb;
 
@@ -26,21 +29,34 @@ namespace SAGAMES.RogueSmash.PlayerController
 
         #region Unity Methods
 
-        private void Start()
-        {
-            inputManager = new InputManager(new SampleBindings(), new RadialMouseInputHandler());
-            inputManager.AddActionToBinding("Shoot", Shoot);
-            weapon = new Pistol(weaponDataTemplate.WeaponData, weaponBarrel.gameObject);
-        }
         private void Awake()
         {
             tracker = FindObjectOfType<AchievementTracker>();
             rb = GetComponent<Rigidbody>();
         }
+        private void Start()
+        {
+            inputManager = new InputManager(new SampleBindings(), new RadialMouseInputHandler());
+            inputManager.AddActionToBinding("Shoot", Shoot);
+            weapon = new Pistol(weaponDataTemplate.WeaponData, weaponBarrel.gameObject, meshRenderer);
+        }
 
         private void FixedUpdate()
         {
             CheckForInput();
+        }
+
+        private void OnCollisionEnter(Collision _collision)
+        {
+            ICollisionEnterHandler[] handlers =
+            _collision.gameObject.GetComponents<ICollisionEnterHandler>();
+            if (handlers != null)
+            {
+                foreach (var handler in handlers)
+                {
+                    handler.Handle(this.gameObject, _collision);
+                }
+            }
         }
 
         #endregion

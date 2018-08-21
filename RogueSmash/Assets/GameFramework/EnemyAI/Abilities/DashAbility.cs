@@ -4,7 +4,7 @@ using SAGAMES.GameFramework.Coroutines;
 using SAGAMES.GameFramework.EnemiesAI.Interfaces;
 using UnityEngine;
 
-namespace SAGAMES
+namespace SAGAMES.GameFramework.EnemiesAI.Abilities
 {
     public class DashAbility : IEnemyAbility
     {

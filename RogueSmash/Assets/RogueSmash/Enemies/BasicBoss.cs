@@ -1,41 +1,42 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
+using System.Collections.Generic;
 using SAGAMES.GameFramework.EnemiesAI;
 using SAGAMES.GameFramework.EnemiesAI.Interfaces;
 using SAGAMES.GameFramework.EnemiesAI.Abilities;
+using System;
 
 namespace SAGAMES.RogueSmash.Enemies
 {
-    public class BasicEnemy : MonoBehaviour
+    public class BasicBoss : MonoBehaviour
     {
         #region Variables
 
-        protected IMovementBehaviour movementBehavior;
+        protected IMovementBehaviour movementBehaviour;
         protected Dictionary<IActionCondition, IEnemyAbility> abilities =
             new Dictionary<IActionCondition, IEnemyAbility>();
         protected NavMeshAgent agent;
         protected GameObject player;
+        [SerializeField] protected GameObject projectilePrefab;
 
         #endregion
 
-        #region Unity Methods
+        #region Unity Callbacks
 
         private void Awake()
         {
             agent = gameObject.GetComponent<NavMeshAgent>();
             player = GameObject.FindWithTag("Player");
-            movementBehavior = new RoamBehaviour(agent, 5);
-            AddDashAbility();
+            //Initializing interfaces
+            movementBehaviour = new RoamBehaviour(agent, 8);
+            SetupAbilities();
         }
-
 
         private void Update()
         {
             if (!agent.hasPath)
             {
-                movementBehavior.SetNextTargetPosition();
-
+                movementBehaviour.SetNextTargetPosition();
             }
             CheckConditions();
         }
@@ -44,14 +45,14 @@ namespace SAGAMES.RogueSmash.Enemies
 
         #region Class Methods
 
-        private void AddDashAbility()
+        private void SetupAbilities()
         {
-            DashAbility ability = new DashAbility(gameObject, player.transform);
-            ability.onBegin += () => { agent.isStopped = true; };
-            ability.onComplete += () => { agent.isStopped = false; };
-            abilities.Add(new RangeCondition(transform, player.transform, 7.0f), ability);
+            BurstAttack ba = new BurstAttack(4, transform, projectilePrefab);
+            ba.onBegin += () => { agent.isStopped = false; };
+            ba.onComplete += () => { agent.isStopped = true; };
+            RangeCondition rc = new RangeCondition(transform, player.transform, 12);
+            abilities.Add(rc, ba);
         }
-
         private void CheckConditions()
         {
             foreach (var kvp in abilities)
@@ -62,6 +63,7 @@ namespace SAGAMES.RogueSmash.Enemies
                 }
             }
         }
+
         #endregion
     }
 }
