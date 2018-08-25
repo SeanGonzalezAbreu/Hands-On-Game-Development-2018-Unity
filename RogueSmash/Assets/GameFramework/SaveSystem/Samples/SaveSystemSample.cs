@@ -6,14 +6,14 @@ namespace SAGAMES.GameFramework.SaveSystem.Samples
     {
         #region Variables
 
-        private SaveSystem saver;
+        //private SaveSystem saver;
         #endregion
 
         #region Unity Methods
 
         private void Awake()
         {
-            saver = new SaveSystem(new DefaultFileWriter(), new DefaultFileReader());
+            //saver = new SaveSystem(new DefaultFileWriter(), new DefaultFileReader());
             //Test for saving
             //string o = "Hello World";
             //saver.Save(o);
@@ -22,15 +22,6 @@ namespace SAGAMES.GameFramework.SaveSystem.Samples
             //string s = saver.Load<string>();
             //Debug.Log(s);
         }
-
-        private void Update()
-        {
-
-        }
-
-        #endregion
-
-        #region Class Methods
 
         #endregion
     }

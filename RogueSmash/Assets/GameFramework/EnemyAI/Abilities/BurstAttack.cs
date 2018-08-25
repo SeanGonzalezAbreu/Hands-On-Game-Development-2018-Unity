@@ -26,7 +26,7 @@ namespace SAGAMES.GameFramework.EnemiesAI.Abilities
         #region Constructors
 
         public BurstAttack(int _burstCount, Transform _emissionPoint, GameObject _bulletPrefab,
-            float _proyectileSpeed = 70.0f, float _groundHeight = .5f, float _duration = 2.0f,
+            float _proyectileSpeed = 12.0f, float _groundHeight = .5f, float _duration = 2.0f,
             int _steps = 36, float _lifeTime = 4.0f)
         {
             burstIterations = Mathf.PI * 2 * _burstCount;

@@ -22,6 +22,7 @@ namespace SAGAMES.RogueSmash.PlayerController
 
         private InputManager inputManager;
         private IWeapon weapon;
+        public IWeapon Weapon { get { return weapon; } }
         private AchievementTracker tracker;
         private Rigidbody rb;
 
@@ -33,11 +34,8 @@ namespace SAGAMES.RogueSmash.PlayerController
         {
             tracker = FindObjectOfType<AchievementTracker>();
             rb = GetComponent<Rigidbody>();
-        }
-        private void Start()
-        {
             inputManager = new InputManager(new SampleBindings(), new RadialMouseInputHandler());
-            inputManager.AddActionToBinding("Shoot", Shoot);
+            inputManager.AddActionToBinding("Disparo", Shoot);
             weapon = new Pistol(weaponDataTemplate.WeaponData, weaponBarrel.gameObject, meshRenderer);
         }
 

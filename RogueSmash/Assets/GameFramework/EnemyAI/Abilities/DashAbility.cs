@@ -12,7 +12,7 @@ namespace SAGAMES.GameFramework.EnemiesAI.Abilities
 
         private bool inUse;
         private bool isLockedOn;
-        private float lockOnDistance = 7.0f;
+        //private float lockOnDistance = 7.0f;
         private float lockOnTime = 2.0f;
 
         private float dashSpeed = 30.0f;

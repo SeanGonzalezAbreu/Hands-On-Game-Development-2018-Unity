@@ -30,7 +30,7 @@ namespace SAGAMES.RogueSmash.Achievements
         }
 
         private ProgressTracker progressTracker;
-        private SaveSystem saveSystem;
+        //private SaveSystem saveSystem; Use this to save achievements
         private Dictionary<string, Achievement> achievements = new Dictionary<string, Achievement>();
 
         #endregion
@@ -48,7 +48,7 @@ namespace SAGAMES.RogueSmash.Achievements
         private void Awake()
         {
             progressTracker = new ProgressTracker();
-            saveSystem = new SaveSystem();
+            //saveSystem = new SaveSystem();
             progressTracker.onValueChanged += OnProgressUpdated;
         }
 

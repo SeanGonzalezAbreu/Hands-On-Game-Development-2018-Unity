@@ -9,7 +9,7 @@ namespace SAGAMES.GameFramework.InputManagement
         protected override void SetupBindings()
         {
             base.SetupBindings();
-            keyBindings.Add("Shoot", KeyCode.Mouse0);
+            keyBindings.Add("Disparo", KeyCode.Mouse0);
         }
 
         #endregion
