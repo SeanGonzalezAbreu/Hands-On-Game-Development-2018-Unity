@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using SAGAMES.GameFramework.InputSystem.Interfaces;
 using SAGAMES.RogueSmash.PlayerController.Scripts;
 using SAGAMES.GameFramework.Coroutines;
 using UnityEngine;
+using SAGAMES.GameFramework.ResourceSystem.Interfaces;
 
 namespace SAGAMES.RogueSmash.Weapons
 {
@@ -14,10 +13,12 @@ namespace SAGAMES.RogueSmash.Weapons
 
         private MeshRenderer meshRenderer;
         private WeaponData weaponData;
-        private int currentAmmo;
+        private IResource ammo;
         private bool isReloading = false;
         private float lastFire = 0;
         private Transform actorLocation;
+        public IResource Ammo { get { return ammo; } }
+
 
         #endregion
         #region Constructor
@@ -27,7 +28,7 @@ namespace SAGAMES.RogueSmash.Weapons
             this.weaponData = _weaponData;
             this.actorLocation = _actor.transform;
             this.meshRenderer = _meshRenderer;
-            currentAmmo = weaponData.MaxAmmo;
+            ammo = new Ammo(weaponData.MaxAmmo);
         }
 
         #endregion
@@ -35,6 +36,7 @@ namespace SAGAMES.RogueSmash.Weapons
 
         public void Reload()
         {
+            meshRenderer.material.color = Color.red;
             isReloading = true;
             CoroutineHelper.RunCoroutine(ReloadTimer);
         }
@@ -43,32 +45,31 @@ namespace SAGAMES.RogueSmash.Weapons
         {
             if (lastFire + weaponData.MinFireInterval > Time.time)
             {
-                Debug.LogWarning("Click");
+                //Debug.LogWarning("Click");
                 return false;
             }
             if (isReloading)
             {
-                Debug.LogWarning("Reloading");
-                meshRenderer.material.color = Color.red;
+                //Debug.LogWarning("Reloading");
                 return false;
             }
-            if (currentAmmo > 0)
+            if (ammo.CurrentValue > 0)
             {
-                currentAmmo--;
+                ammo.Remove(1);
                 lastFire = Time.time;
                 SpawnProjectile();
-                Debug.Log("PEW" + currentAmmo + "/" + weaponData.MaxAmmo);
+                //Debug.Log("PEW" + currentAmmo + "/" + weaponData.MaxAmmo);
                 return true;
             }
-            if (currentAmmo <= 0 && weaponData.DoesAutoReload)
+            if (ammo.CurrentValue <= 0 && weaponData.DoesAutoReload)
             {
-                Debug.LogWarning("Reloading");
+                //Debug.LogWarning("Reloading");
                 Reload();
                 return false;
             }
             else
             {
-                Debug.LogWarning("Out of Ammo");
+                //Debug.LogWarning("Out of Ammo");
                 return false;
             }
         }
@@ -79,9 +80,12 @@ namespace SAGAMES.RogueSmash.Weapons
         {
             GameObject instance = GameObject.Instantiate(weaponData.ProjectilePrefab, actorLocation.position, actorLocation.rotation);
             instance.name = "Projectile";
-            Rigidbody rb = instance.GetComponent<Rigidbody>();
-            rb.velocity = rb.transform.forward.normalized * weaponData.ProjectileSpeed;
-            GameObject.Destroy(instance, weaponData.ProjectileLifeTime);
+            Projectile projectile = instance.AddComponent<Projectile>();
+            projectile.Init(actorLocation.forward.normalized, weaponData.ProjectileSpeed);
+            projectile.Shoot();
+            //Rigidbody rb = instance.GetComponent<Rigidbody>();
+            //rb.velocity = rb.transform.forward.normalized * weaponData.ProjectileSpeed;
+            //GameObject.Destroy(instance, weaponData.ProjectileLifeTime);
         }
 
         private IEnumerator ReloadTimer()
@@ -92,9 +96,9 @@ namespace SAGAMES.RogueSmash.Weapons
                 timer += Time.deltaTime;
                 yield return null;
             }
-            Debug.LogError("Reload Complete");
+            //Debug.LogError("Reload Complete");
             meshRenderer.material.color = Color.white;
-            currentAmmo = weaponData.MaxAmmo;
+            ammo.Add(weaponData.MaxAmmo);
             isReloading = false;
         }
         #endregion

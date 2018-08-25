@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Name: Pistol
   m_EditorClassIdentifier: 
   weaponData:
-    maxAmmo: 100
-    minFireInterval: 0.1
-    reloadTime: 1
+    maxAmmo: 12
+    minFireInterval: 0.2
+    reloadTime: 1.2
     doesAutoReload: 1
     baseDamage: 1
-    projectileSpeed: 80
+    projectileSpeed: 70
     projectilePrefab: {fileID: 1009233279780754, guid: 61a2a6c102a35bc41be4c43d7f16e7d2,
       type: 2}
     projectileLifeTime: 5

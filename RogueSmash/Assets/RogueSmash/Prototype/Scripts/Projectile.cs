@@ -1,24 +1,32 @@
-﻿using System.Collections;
+﻿using SAGAMES.GameFramework.Physics.Interfaces;
+using SAGAMES.GameFramework.ResourceSystem.Interfaces;
+using System.Collections;
 using UnityEngine;
 namespace SAGAMES.RogueSmash.Weapons
 {
-    public class Projectile : MonoBehaviour
+    [RequireComponent(typeof(Rigidbody))]
+    public class Projectile : MonoBehaviour, ICollisionEnterHandler
     {
         #region Variables
 
         private float lifetime;
         private Vector3 direction;
-        private float projectilVelocity;
+        private float projectileVelocity;
         private bool isAlive;
+        private Rigidbody rb;
         #endregion
 
         #region Unity Methods
 
+        private void Awake()
+        {
+            rb = GetComponent<Rigidbody>();
+        }
         void Update()
         {
 
-            if (isAlive) transform.position += direction * Time.deltaTime * projectilVelocity;
-            //if (isAlive) rb.velocity = direction * projectilVelocity;
+            //if (isAlive) transform.position += direction * Time.deltaTime * projectilVelocity;
+            if (isAlive) rb.velocity = direction * projectileVelocity;
         }
 
         #endregion
@@ -28,7 +36,7 @@ namespace SAGAMES.RogueSmash.Weapons
         public void Init(Vector3 _direction, float _velocity = 20.0f, float _lifetime = 1.0f)
         {
             this.direction = _direction;
-            this.projectilVelocity = _velocity;
+            this.projectileVelocity = _velocity;
             this.lifetime = _lifetime;
         }
 
@@ -42,6 +50,30 @@ namespace SAGAMES.RogueSmash.Weapons
             yield return new WaitForSeconds(_timer);
             Destroy(gameObject);
         }
+
+        #endregion
+
+        #region Contract Methods
+
+        //private void OnCollisionEnter(Collision collision)
+        //{
+        //    IDamageable damageable = collision.gameObject.GetComponent<IDamageable>();
+        //    if (damageable != null)
+        //    {
+        //        damageable.Damage(1);
+        //        Debug.Log("BOSS HIT");
+        //    }
+        //}
+        public void Handle(GameObject _instigator, Collision _collision)
+        {
+            IDamageable damageable = _instigator.gameObject.GetComponent<IDamageable>();
+            if (damageable != null)
+            {
+                damageable.Damage(1);
+                Debug.Log("BOSS HIT");
+            }
+        }
+
         #endregion
     }
 }
